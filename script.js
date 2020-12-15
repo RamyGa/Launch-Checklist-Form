@@ -20,6 +20,10 @@ window.addEventListener("load", function () {
    let copilotName = document.getElementById("copilotName");
    let fuelLevel = document.getElementById("fuelLevel");
    let cargoMass =document.getElementById("cargoMass");
+   let list =document.getElementById("faultyItems");
+   let fuelStatus = document.getElementById("fuelStatus")
+   let cargoStatus = document.getElementById("cargoStatus")
+   let launchStatus = document.getElementById("launchStatus")
    let form = document.querySelector("form");
 
    let fuelAsInt = Number(fuelLevel.value);
@@ -30,15 +34,45 @@ window.addEventListener("load", function () {
       if (pilotName.value === "" || copilotName.value === "" || fuelLevel.value === "" || cargoMass.value === "") {
          
          alert("All fields are required");
-         event.preventDefault();
+       
       }
 
-      else if (isNaN(pilotName.value) === false || isNaN(copilotName.value) === false || isNaN(fuelAsInt) || isNaN(cargoMassAsInt)) {
-         alert("Make sure to enter valid information for each field!");
-         event.preventDefault();
+      else if(isNaN(pilotName.value) && isNaN(copilotName.value) && !isNaN(fuelAsInt) && !isNaN(cargoMassAsInt) ){
+          if (fuelAsInt < 10000 || cargoMassAsInt > 10000 ){
+           list.style.visibility = "visible";
+            launchStatus.style.color = "RED";  
+            launchStatus.innerHTML = "Shuttle not ready for launch";
+
+           
+            if(cargoMassAsInt > 10000){
+               cargoStatus.innerHTML = "There is too much mass for the shuttle to take off";    
+            }
+            if(fuelAsInt < 10000){
+               fuelStatus.innerHTML = "Fuel level too low for lanuch";
+            }
+
+         }
+         
+
+         else{
+            list.style.visibility = "visible" 
+            launchStatus.innerHTML = "Shuttle is ready for launch";
+            launchStatus.style.color = "GREEN";
+         }
       }
-  
+
+      else  {
+         alert("Make sure to enter valid information for each field!");
+        
+      }
+
+ 
+   event.preventDefault();
+ 
 
    });
+
+   
+   
 
 });
